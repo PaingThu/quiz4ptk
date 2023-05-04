@@ -1,4 +1,12 @@
+
 import {reactive} from 'vue'
+import correct from '/src/assets/sounds/correct.mp3'
+import wrong from '/src/assets/sounds/wrong.mp3'
+
+var correctSound = new Audio(correct);
+var wrongSound = new Audio(wrong);
+
+
 const htmlCode = {
     myanmar: { start:4096, total: 34 },
     english: { start:65, total: 26 },
@@ -17,7 +25,9 @@ export const quizInfo = reactive({
     que: 0,
     randomCharList: [],
     wrongList: [],
-    wrongTime: 0
+    wrongTime: 0,
+    correctWord: "",
+    correct: false
 })
 export const quizController = {
     configureAlphabetList: (lan) => {
@@ -56,18 +66,28 @@ export const quizController = {
     },
     chooseAns: (ans) => {
         if(quizInfo.que == ans){
-            quizInfo.wrongList = []
-            if(quizInfo.que >= quizInfo.alphabetList.length - 1){
-                const wrongInfo = quizInfo.wrongTime ? ` But you choosed wrong answer ${quizInfo.wrongTime} times` : ""
-                alert(`Congratulations!${wrongInfo}` )
-            }else{
-                quizInfo.que ++
-                quizController.getRandomsCharacter()
-            }
+            quizInfo.correctWord = ans
+            quizInfo.correct = true
+            correctSound.play()
+            setTimeout(function(){
+                quizInfo.correct = false
+                quizInfo.wrongList = []
+                if(quizInfo.que >= quizInfo.alphabetList.length - 1){
+                    const wrongInfo = quizInfo.wrongTime ? ` But you choosed wrong answer ${quizInfo.wrongTime} times` : ""
+                    alert(`Congratulations!${wrongInfo}` )
+                }else{
+                    quizInfo.que ++
+                    quizController.getRandomsCharacter()
+                    quizInfo.correctWord = ""
+                }
+            }, 2000);
+            
         }else{
+            wrongSound.play()
             quizInfo.wrongList.push(ans)
             quizInfo.wrongTime ++
         }
+
     },
     restart: () => {
         quizInfo.que = 0,
