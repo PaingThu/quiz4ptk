@@ -15,6 +15,7 @@
     
 
     onMounted(() => {
+        quizInfo.que = 0
         quizController.configureAlphabetList(compInfo.name)
         quizController.getRandomsCharacter()
     })
