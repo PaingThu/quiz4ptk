@@ -4,7 +4,7 @@
 
 <template>
     <Navbar />
-    <div class="container mx-auto h-screen p-5">
+    <div class="container mx-auto p-5">
        Profile
     </div>
 </template>

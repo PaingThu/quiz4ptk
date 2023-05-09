@@ -9,7 +9,7 @@
 
 <template>
     <Navbar />
-    <div class="container mx-auto h-screen p-5">
+    <div class="container mx-auto p-5">
        <Myanmar v-if="$route.name == 'myanmar'"/>
        <English v-else-if="$route.name == 'english'"/>
        <Japanese v-else-if="$route.name == 'japanese'"/>

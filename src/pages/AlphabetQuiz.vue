@@ -23,13 +23,13 @@
 </script>
 
 <template>
-        <div class="flex flex-col gap-4 items-center w-full xl:w-1/2">
+        <div class="relative flex flex-col gap-4 items-center w-full xl:w-1/2">
             <span class="text-6xl w-full text-center border rounded py-10 text-cyan-500" v-html="quizInfo.alphabetList[quizInfo.que]"></span>
             <div class="grid w-full grid-cols-4 gap-3">
                 <template v-for="(charNo, index) in quizInfo.randomCharList" :key="index">
                     <div class="flex flex-col items-center">
                         <span 
-                            class="w-full py-5 md:py-10 text-center text-4xl md:text-6xl rounded cursor-pointer hover:shadow-none" 
+                            class="w-full py-5 md:py-10 select-none text-center text-4xl md:text-6xl rounded cursor-pointer hover:shadow-none" 
                             :class="quizInfo.wrongList.includes(charNo)?'bg-red-300 shadow-none':'bg-cyan-300 shadow-md'"
                             v-html="quizInfo.alphabetList[charNo]"
                             @click="quizController.chooseAns(charNo)"
@@ -48,9 +48,11 @@
                 v-html="icons.restart"
             >
             </span>
-            <div v-if="quizInfo.correct" class="absolute flex flex-col gap-3 items-center">
-                <span class="px-5 py-2 rounded-full bg-lime-50 shadow-lg text-lime-500 text-4xl">{{pageInfo[compInfo.name].correct}}</span>
-                <img src="/src/assets/img/anpanman.png" alt="" class="w-1/2 mx-auto">
+            <div v-if="quizInfo.correct" class="absolute right-0 flex flex-col gap-3 items-center w-1/2 md:w-1/3">
+                <span class="flex w-10 h-10 border rounded-full text-lime-500 text-4xl">
+                    <ion-icon name="checkmark-outline"></ion-icon>
+                </span>
+                <img src="/src/assets/img/anpanman.png" alt="" class="w-full">
             </div>
         </div>
 </template>

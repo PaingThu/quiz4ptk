@@ -61,31 +61,32 @@ export const quizController = {
             result = [...new Set(result)];
             result.sort(() => Math.random() - 0.5);
         }
-        console.log("Result ", result)
         quizInfo.randomCharList = result
     },
     chooseAns: (ans) => {
-        if(quizInfo.que == ans){
-            quizInfo.correctWord = ans
-            quizInfo.correct = true
-            correctSound.play()
-            setTimeout(function(){
-                quizInfo.correct = false
-                quizInfo.wrongList = []
-                if(quizInfo.que >= quizInfo.alphabetList.length - 1){
-                    const wrongInfo = quizInfo.wrongTime ? ` But you choosed wrong answer ${quizInfo.wrongTime} times` : ""
-                    alert(`Congratulations!${wrongInfo}` )
-                }else{
-                    quizInfo.que ++
-                    quizController.getRandomsCharacter()
-                    quizInfo.correctWord = ""
-                }
-            }, 2000);
-            
-        }else{
-            wrongSound.play()
-            quizInfo.wrongList.push(ans)
-            quizInfo.wrongTime ++
+        if(!quizInfo.correct){
+            if(quizInfo.que == ans){
+                quizInfo.correctWord = ans
+                quizInfo.correct = true
+                correctSound.play()
+                setTimeout(function(){
+                    quizInfo.correct = false
+                    quizInfo.wrongList = []
+                    if(quizInfo.que >= quizInfo.alphabetList.length - 1){
+                        const wrongInfo = quizInfo.wrongTime ? ` But you choosed wrong answer ${quizInfo.wrongTime} times` : ""
+                        alert(`Congratulations!${wrongInfo}` )
+                        quizInfo.wrongTime = 0
+                    }else{
+                        quizInfo.que ++
+                        quizController.getRandomsCharacter()
+                        quizInfo.correctWord = ""
+                    }
+                }, 1000);
+            }else{
+                wrongSound.play()
+                quizInfo.wrongList.push(ans)
+                quizInfo.wrongTime ++
+            }
         }
 
     },
