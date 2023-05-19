@@ -26,6 +26,7 @@ export const quizInfo = reactive({
     randomCharList: [],
     wrongList: [],
     wrongTime: 0,
+    correctTime: 0,
     correctWord: "",
     correct: false
 })
@@ -66,22 +67,22 @@ export const quizController = {
     chooseAns: (ans) => {
         if(!quizInfo.correct){
             if(quizInfo.que == ans){
+                quizInfo.correctTime ++
                 quizInfo.correctWord = ans
                 quizInfo.correct = true
                 correctSound.play()
-                setTimeout(function(){
-                    quizInfo.correct = false
-                    quizInfo.wrongList = []
-                    if(quizInfo.que >= quizInfo.alphabetList.length - 1){
-                        const wrongInfo = quizInfo.wrongTime ? ` But you choosed wrong answer ${quizInfo.wrongTime} times` : ""
-                        alert(`Congratulations!${wrongInfo}` )
-                        quizInfo.wrongTime = 0
-                    }else{
-                        quizInfo.que ++
-                        quizController.getRandomsCharacter()
-                        quizInfo.correctWord = ""
-                    }
-                }, 1000);
+                quizInfo.correct = false
+                quizInfo.wrongList = []
+                if(quizInfo.que >= quizInfo.alphabetList.length - 1){
+                    quizInfo.que ++
+                    const wrongInfo = quizInfo.wrongTime ? ` But you choosed wrong answer ${quizInfo.wrongTime} times` : ""
+                    alert(`Congratulations!${wrongInfo}` )
+                    quizInfo.wrongTime = 0
+                }else{
+                    quizInfo.que ++
+                    quizController.getRandomsCharacter()
+                    quizInfo.correctWord = ""
+                }
             }else{
                 wrongSound.play()
                 quizInfo.wrongList.push(ans)
@@ -93,6 +94,7 @@ export const quizController = {
     restart: () => {
         quizInfo.que = 0,
         quizInfo.wrongList = []
+        quizInfo.correctTime = 0
         quizInfo.wrongTime = 0
         quizController.getRandomsCharacter()
     }

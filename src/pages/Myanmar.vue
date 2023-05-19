@@ -1,10 +1,19 @@
 <script setup>
+    import Header from '/src/components/Header.vue'
+    import Tabs from '/src/components/Tabs.vue'
     import AlphabetQuiz from '/src/pages/AlphabetQuiz.vue'
+
+    const tabs = [
+        { id:"mm01", label: "ကခဂဃင"  },
+        { id:"mm02", label: "၁၂၃၄၅"  },
+    ]
+
 </script>
 
 <template>
-    <div class="flex flex-col items-center gap-6">
-        <h3 class="text-3xl p-5">မြန်မာစာ သင်ပုန်းကြီး</h3>
+    <div class="flex flex-col gap-6">
+        <Header />
+        <!-- <Tabs :tabInfo="{ tabs: tabs }" /> -->
         <AlphabetQuiz :compInfo="{name: 'myanmar'}"/>
     </div>
 </template>

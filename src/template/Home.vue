@@ -1,5 +1,4 @@
 <script setup>
-    import Navbar from '/src/components/Navbar.vue'
     import { goto } from '/src/router.js'
 </script>
 

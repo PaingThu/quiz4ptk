@@ -6,8 +6,8 @@
 <template>
     <nav class="flex items-center px-6 py-2 shadow sticky top-0 bg-white">
         <div class="cursor-pointer">
-            <span @click="goto('/')" class="flex gap-3 items-center">
-                <img src="/src/assets/img/q4k-logo-circle.png" alt="" class="w-20">
+            <span @click="goto('/')" class="flex gap-3 items-center" v-lazy-container="{ selector: 'img' }">
+                <img data-src="/src/assets/img/q4k-logo-circle.png" alt="" class="w-20">
                 <span class="text-lg md:text-3xl">Quiz for Kids</span>
             </span>
         </div>
