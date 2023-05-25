@@ -3,10 +3,10 @@ import Home from './template/Home.vue'
 import Quiz from './template/Quiz.vue'
 import Profile from './template/Profile.vue'
 import Phrase from './template/Phrase.vue'
+import Jlpt from './template/Jlpt.vue'
 import Learning from './pages/Learning.vue'
 
 export const goto = (path) => {
-    console.log("Path ", path)
     router.push(path)
 }
 
@@ -18,6 +18,7 @@ const routes = [
     { path:"/profile", name:"profile", component: Profile },
     { path:"/phrase", name:"phrase", component: Phrase },
     { path:"/phrase/:id", name:"learning", component: Learning },
+    { path:"/jlpt", name:"jlpt", component: Jlpt },
 ]
 
 const router = createRouter({

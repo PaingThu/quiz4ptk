@@ -3,6 +3,9 @@
     import { useRoute } from 'vue-router'
     import { goto } from '/src/router.js'
     import { api } from '/src/http-common.js'
+    import { textToSpeech } from '/src/functions.js'
+
+    
 
     const route = useRoute()
     const category = route.params.id
@@ -41,8 +44,11 @@
                         <img src="/src/assets/icons/flags/jp.svg" alt="" class="w-10 border border-slate-200">
                         <span>{{ phrase.list[phrase.current].jp }}</span>
                     </div>
-                    <div class="flex flex-col items-center gap-2 bg-white w-1/2 min-w-fit mix-w-full shadow p-3 md:p-5 rounded">
-                        <span class="w-20">အသံထွက်</span>
+                    <div 
+                        class="flex flex-col items-center gap-2 bg-white w-1/2 min-w-fit mix-w-full shadow p-3 md:p-5 rounded"
+                        @click="textToSpeech(phrase.list[phrase.current].jp)"
+                    >
+                        <span class="cursor-pointer flex mb-3 items-center shadow-lg p-3 hover:shadow-sm"><ion-icon class="text-3xl" name="volume-high-outline"></ion-icon></span>
                         <span class="text-xl text-orange-400">{{ phrase.list[phrase.current].mmji }}</span>
                         <span class="text-lg text-orange-400">{{ phrase.list[phrase.current].romaji }}</span>
                     </div>
