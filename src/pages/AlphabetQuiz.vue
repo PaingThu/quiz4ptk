@@ -24,53 +24,6 @@
 
 <template>
     <div class="w-full">
-        <div 
-            class="text-xl py-5 flex flex-col gap-0"
-        >
-            <div
-                class="hidden md:block"
-                :style="`width: ${50 / (quizInfo.total/2)}%; margin-left: ${((100 / quizInfo.total) * quizInfo.correctTime)-((100 / quizInfo.total))}%`"
-            >
-                <img src="/src/assets/img/risu.png" alt="" 
-                    class="w-10 md:w-20 animate-bounce transition-transform"
-                >
-            </div>
-            <div
-                class="md:hidden"
-                :style="`width: ${100 / (quizInfo.total/2)}%; margin-left: ${((100 / quizInfo.total*2) * quizInfo.correctTime)-((100 / quizInfo.total*2))}%`"
-            >
-                <img src="/src/assets/img/risu.png" alt="" 
-                    class="w-10 md:w-20 animate-bounce transition-transform"
-                >
-            </div>
-            <div class="flex flex-col md:flex-row mb-8" style="margin-top: -2rem;">
-                <div class="flex w-full">
-                    <div class="" v-for="index in quizInfo.total/2" :key="index"
-                        :style="`width: ${100 / (quizInfo.total/2)}%`"
-                    >
-                        <span
-                            v-if="index > quizInfo.que"
-                            class="w-5 h-5 mx-auto block broder rounded-full shadow"
-                        >
-                            <img src="/src/assets/img/nut.png" alt="">
-                        </span>
-                    </div>
-                </div>
-                <div class="flex w-full">
-                    <div class="" v-for="index in quizInfo.total/2" :key="index"
-                        :style="`width: ${100 / (quizInfo.total/2)}%`"
-                    >
-                        <span
-                            v-if="index+quizInfo.total/2 > quizInfo.que"
-                            class="w-5 h-5 mx-auto block broder rounded-full shadow"
-                        >
-                            <img src="/src/assets/img/nut.png" alt="">
-                        </span>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
         <div class="relative flex flex-col gap-4 mx-auto items-center w-full xl:w-1/2">
             <span class="text-6xl w-full text-center border rounded py-10 text-cyan-500" v-html="quizInfo.alphabetList[quizInfo.que]"></span>
             <div class="grid w-full grid-cols-4 gap-3">
