@@ -57,14 +57,14 @@
 </script>
 <template>
     <div class="container mx-auto p-5 md:py-10 h-screen">
-        <div class="flex gap-5 align-center">
+        <div class="flex gap-5 align-center pb-2 mb-3 border-b-2 border-b-orange-500">
             <div class="flex items-center gap-5">
                 <span class="text-xl">{{ roomInfo.level.toUpperCase() }} {{ jlptInfo[roomInfo.room]  }}</span>
             </div>
-            <div class="ms-auto flex gap-2 items-center">
-                <div class="flex-gap-2">
+            <div class="ms-auto flex gap-3 items-center">
+                <div class="flex gap-1 items-center">
                     <input type="checkbox" id="random" v-model="roomInfo.random" @change="checkRandom()"/>
-                    <label for="random">Random Words{{ roomInfo.random }}</label>
+                    <label for="random">Random Words</label>
                 </div>
                 <span class="flex items-center" @click="volumeToggle()">
                     <ion-icon class="text-3xl" :name="ttsInfo.volume == 1 ? 'volume-high-outline' : 'volume-mute-outline'"></ion-icon>
@@ -103,10 +103,10 @@
                 <div class="flex flex-col items-center gap-2">
                     <span 
                         v-if="ttsInfo.volume == 1"
-                        class="cursor-pointer flex mb-3 items-center shadow-lg p-3 hover:shadow-sm"
+                        class="cursor-pointer flex mb-3 items-center shadow-lg p-0 hover:shadow-sm border border-orange-500 rounded-full"
                         @click="click('play')"
                     >
-                        <ion-icon class="text-3xl" name="play-circle"></ion-icon>
+                        <ion-icon class="text-4xl text-orange-400" name="play-circle"></ion-icon>
                     </span>
                 </div>
                 <div class="flex flex-col items-center gap-2">
