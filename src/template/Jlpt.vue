@@ -1,7 +1,9 @@
 <script setup>
+    import JlptNavbar from '/src/components/JlptNavbar.vue'
     import { onMounted, reactive, ref } from 'vue'
     import { goto } from '/src/router.js'
     import { api } from '/src/http-common.js'
+    const appName = "MoChi JLPT"
     const jlptLevelLabel = {
         n5: "Basic Level",
         n4: "Elementary Level",
@@ -138,10 +140,8 @@
     })
 </script>
 <template>
+    <JlptNavbar setting="false"/>
     <div class="container flex flex-col gap-3 mx-auto py-5 px-3 md:px-5">
-        <div>
-            <h1 class="text-3xl text-orange-400">Japanese Language Proficiency Test</h1>
-        </div>
         <div class="grid grid-cols-5">
             <template v-for="(item, level) in levelInfo" :key="level">
                 <div 
