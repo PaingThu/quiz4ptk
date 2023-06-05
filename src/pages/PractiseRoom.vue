@@ -1,11 +1,10 @@
 <script setup>
     import { onMounted, reactive } from 'vue';
     import { useRoute } from 'vue-router'
-    import { goto } from '/src/router.js'
     import { api } from '/src/http-common.js'
     import { textToSpeech, ttsInfo } from '/src/functions.js'
     const jlptInfo = {
-        kotoba: "Essential Words",
+        kotoba: "語彙",
     }
     const route = useRoute()
     const roomInfo = reactive({
@@ -59,16 +58,13 @@
 <template>
     <div class="container mx-auto p-5 md:py-10 h-screen">
         <div class="flex gap-5 align-center pb-2 mb-3 border-b-2 border-b-orange-500">
-            <div class="flex items-center gap-3">
-                <span class="cursor-pointer" @click="goto('/jlpt')">
-                    <ion-icon name="home" size="large"></ion-icon>
-                </span>
-                <span class="text-lg">{{ roomInfo.level.toUpperCase() }} {{ jlptInfo[roomInfo.room]  }}</span>
+            <div class="flex items-center gap-5">
+                <span class="text-xl">{{ roomInfo.level.toUpperCase() }} {{ jlptInfo[roomInfo.room]  }}</span>
             </div>
             <div class="ms-auto flex gap-3 items-center">
                 <div class="flex gap-1 items-center">
                     <input type="checkbox" id="random" v-model="roomInfo.random" @change="checkRandom()"/>
-                    <label for="random">Random</label>
+                    <label for="random">Random Words</label>
                 </div>
                 <span class="flex items-center" @click="volumeToggle()">
                     <ion-icon class="text-3xl" :name="ttsInfo.volume == 1 ? 'volume-high-outline' : 'volume-mute-outline'"></ion-icon>
