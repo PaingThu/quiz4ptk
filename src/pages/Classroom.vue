@@ -1,4 +1,5 @@
 <script setup>
+    import JlptNavbar from '/src/components/JlptNavbar.vue'
     import { onMounted, reactive } from 'vue';
     import { useRoute } from 'vue-router'
     import { goto } from '/src/router.js'
@@ -57,7 +58,8 @@
 
 </script>
 <template>
-    <div class="container mx-auto p-5 md:py-10 h-screen">
+    <JlptNavbar />
+    <div class="container mx-auto p-5 md:py-10">
         <div class="flex gap-5 align-center pb-2 mb-3 border-b-2 border-b-orange-500">
             <div class="flex items-center gap-3">
                 <span class="cursor-pointer" @click="goto('/jlpt')">
@@ -75,7 +77,7 @@
                 </span>
             </div>
         </div>
-        <div v-if="roomInfo.list.length > 0" class="relative h-1/6">
+        <div v-if="roomInfo.list.length > 0" class="relative h-40">
             <div class="flex flex-col gap-3 p-3 md:p-5 rounded w-full items-center bg-blue-400 h-full" >
                 <div class="flex h-full items-center">
                     <span class="text-white text-4xl">{{ configureKanji(roomInfo.list[roomInfo.current]) }}</span>
@@ -115,6 +117,9 @@
                 </div>
                 <div class="flex flex-col items-center gap-2">
                     <span>{{ configureKana(roomInfo.list[roomInfo.current]) }}</span>
+                </div>
+                <div v-if="roomInfo.level == 'n5'" class="flex flex-col items-center gap-2">
+                    <span>{{ roomInfo.list[roomInfo.current].romaji }}</span>
                 </div>
                 <div class="flex flex-col items-center gap-2">
                     <span>{{ roomInfo.list[roomInfo.current].meaning_mm }}</span>
