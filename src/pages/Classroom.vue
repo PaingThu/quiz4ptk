@@ -47,6 +47,7 @@
         roomInfo.current = 0
         const tmpList = [...roomInfo.original_list]
         roomInfo.list = roomInfo.random ? tmpList.sort(() => 0.5 - Math.random()) : roomInfo.original_list
+        textToSpeech(roomInfo.list[roomInfo.current].kana)
     }
     onMounted(async () => {
         const retData = await api.get(`jlpt/${roomInfo.room}/${roomInfo.level}.json`)
