@@ -10,12 +10,15 @@
     }
     const route = useRoute()
     const roomInfo = reactive({
-        level: route.params.level.split('-')[0],
-        room: route.params.level.split('-')[1],
+        level: route.params.level,
+        room: route.params.room,
         original_list: [],
         list:[],
         current: 0,
-        random: false
+        random: false,
+        studiedWords: {
+            n5:[],n4:[],n3:[],n2:[],n1:[],
+        }
     })
     const configureKanji = (vocab) => {
         if(vocab.kanji){
@@ -31,6 +34,10 @@
     }
     const click = (btn) => {
         if(btn == "next"){
+            roomInfo.studiedWords[roomInfo.level].push(roomInfo.list[roomInfo.current].no)
+            roomInfo.studiedWords[roomInfo.level] = roomInfo.studiedWords[roomInfo.level] .filter((item,index) => roomInfo.studiedWords[roomInfo.level] .indexOf(item) === index)
+            const arrayString = JSON.stringify(roomInfo.studiedWords)
+            localStorage.setItem('studiedWords', arrayString)
             roomInfo.current++
         }
         if(btn == 'prev'){
@@ -45,25 +52,33 @@
     }
     const checkRandom = () => {
         roomInfo.current = 0
-        const tmpList = [...roomInfo.original_list]
-        roomInfo.list = roomInfo.random ? tmpList.sort(() => 0.5 - Math.random()) : roomInfo.original_list
+        var tmpList = [...roomInfo.original_list]
+        tmpList = tmpList.filter(tmp => !roomInfo.studiedWords[roomInfo.level].includes(tmp.no))
+        roomInfo.list = roomInfo.random ? tmpList.sort(() => 0.5 - Math.random()) : roomInfo.original_list.filter(org => !roomInfo.studiedWords[roomInfo.level].includes(org.no))
         textToSpeech(roomInfo.list[roomInfo.current].kana)
     }
     onMounted(async () => {
+        let retString = localStorage.getItem("studiedWords")
+        let tmpJson = retString ? JSON.parse(retString) : {n5:[],n4:[],n3:[],n2:[],n1:[]}
+        roomInfo.studiedWords[roomInfo.level] = tmpJson[roomInfo.level]
+
         const retData = await api.get(`jlpt/${roomInfo.room}/${roomInfo.level}.json`)
         roomInfo.original_list = retData.data
-        const tmpList = [...roomInfo.original_list]
-        roomInfo.list = roomInfo.random ? tmpList.sort(() => 0.5 - Math.random()) : roomInfo.original_list
+
+        var tmpList = [...roomInfo.original_list]
+        tmpList = tmpList.filter(tmp => !roomInfo.studiedWords[roomInfo.level].includes(tmp.no))
+        roomInfo.list = roomInfo.random ? tmpList.sort(() => 0.5 - Math.random()) : roomInfo.original_list.filter(org => !roomInfo.studiedWords[roomInfo.level].includes(org.no))
         textToSpeech(roomInfo.list[roomInfo.current].kana)
+        
     })
 
 </script>
 <template>
-    <JlptNavbar />
+    <JlptNavbar :level="roomInfo.level"/>
     <div class="container mx-auto p-5 md:py-10">
         <div class="flex gap-5 align-center pb-2 mb-3 border-b-2 border-b-orange-500">
             <div class="flex items-center gap-3">
-                <span class="cursor-pointer" @click="goto('/jlpt')">
+                <span class="cursor-pointer" @click="goto(`/jlpt/${roomInfo.level}`)">
                     <ion-icon name="home" size="large"></ion-icon>
                 </span>
                 <span class="text-lg">{{ roomInfo.level.toUpperCase() }} {{ jlptInfo[roomInfo.room]  }}</span>
@@ -77,6 +92,9 @@
                     <ion-icon class="text-3xl" :name="ttsInfo.volume == 1 ? 'volume-high-outline' : 'volume-mute-outline'"></ion-icon>
                 </span>
             </div>
+        </div>
+        <div>
+            <span> You studied {{ roomInfo.studiedWords[roomInfo.level].length }} words of {{ roomInfo.original_list.length }}.</span>
         </div>
         <div v-if="roomInfo.list.length > 0" class="relative h-40">
             <div class="flex flex-col gap-3 p-3 md:p-5 rounded w-full items-center bg-blue-400 h-full" >

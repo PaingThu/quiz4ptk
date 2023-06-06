@@ -22,8 +22,9 @@ const routes = [
     { path:"/phrase", name:"phrase", component: Phrase },
     { path:"/phrase/:id", name:"learning", component: Learning },
     { path:"/jlpt", name:"jlpt", component: Jlpt },
-    { path:"/jlpt/:level", name:"jlptclassroom", component: ClassRoom },
-    { path:"/jlpt/:level/:room", name:"practiseroom", component: PractiseRoom },
+    { path:"/jlpt/:level", name:"jlptlevel", component: Jlpt },
+    { path:"/jlpt/:level/:room", name:"jlptclassroom", component: ClassRoom },
+    { path:"/jlpt/:level/:room/:practise", name:"practiseroom", component: PractiseRoom },
 ]
 
 const router = createRouter({

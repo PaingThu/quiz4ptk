@@ -1,8 +1,10 @@
 <script setup>
     import JlptNavbar from '/src/components/JlptNavbar.vue'
     import { onMounted, reactive, ref } from 'vue'
+    import { useRoute } from 'vue-router'
     import { goto } from '/src/router.js'
     import { api } from '/src/http-common.js'
+    const route = useRoute()
     const appName = "MoChi JLPT"
     const jlptLevelLabel = {
         n5: "Basic Level",
@@ -11,6 +13,7 @@
         n2: "Pre-Advenced Level",
         n1: "Advenced Level",
     }
+    const currentLevel = ref(route.params.level ? route.params.level : 'n5')
     const levelInfo = reactive({
         n5:{
             title:'N5' ,
@@ -128,13 +131,14 @@
             }
         },
     })
-    const currentLevel = ref('n5')
+    
    
     onMounted(async () => {
         for (const level in levelInfo) {
             const retData = await api.get(`jlpt/kotoba/${level}.json`)
             levelInfo[level].classrooms.kotoba.totalWords = retData.data.length
-            levelInfo[level].classrooms.kotoba.studiedWords = localStorage.getItem('studiedWords') ? localStorage.getItem('studiedWords') : 0
+            let studiedWordsString = localStorage.getItem("studiedWords")
+            levelInfo[level].classrooms.kotoba.studiedWords = studiedWordsString ? JSON.parse(studiedWordsString)[level].length : 0
             levelInfo[level].classrooms.kotoba.practisedWords = localStorage.getItem('practisedWords') ? localStorage.getItem('practisedWords') : 0
         }
     })
@@ -147,7 +151,7 @@
                 <div 
                     class="grid place-items-center cursor-pointer p-3 border-b hover:drop-shadow"
                     :class="currentLevel == level ? 'drop-shadow border-b-2 border-orange-400':''"
-                    @click="currentLevel = level"
+                    @click="()=>{currentLevel = level; goto(`/jlpt/${level}`)}"
                 >
                     <span 
                         class="text-xl text-center"
@@ -179,13 +183,13 @@
                         <div class="ms-auto flex flex-col gap-2 justify-end">
                             <span 
                                 class="rounded bg-blue-400 px-3 py-2 text-center text-white hover:bg-blue-500 cursor-pointer shadow"
-                                @click="goto(`/jlpt/${currentLevel}-${roomId}`)"
+                                @click="goto(`/jlpt/${currentLevel}/${roomId}`)"
                             >
                                 Class Room
                             </span>
                             <span 
                                 class="rounded bg-blue-400 px-3 py-2 text-center text-white hover:bg-blue-500 cursor-pointer shadow"
-                                @click="goto(`/jlpt/${currentLevel}-${roomId}/practise`)"
+                                @click="goto(`/jlpt/${currentLevel}/${roomId}/practise`)"
                             >
                                 Practise Room
                             </span>
